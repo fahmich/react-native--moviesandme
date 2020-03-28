@@ -10,23 +10,30 @@ class Search extends React.Component {
           this.searchedText = "" // Initialisation de notre donnée searchedText en dehors du state
           this.page = 0 // Compteur pour connaître la page courante
           this.totalPages = 0 // Nombre de pages totales pour savoir si on a atteint la fin des retours de l'API TMDB
-          this.state = { films: [] }  ,
-          this.isLoading= false // Par défaut à false car il n'y a pas de chargement tant qu'on ne lance pas de recherche
-  
-        }
+          this.state = { films: [],idFilm:"" }  ,
+          this.isLoading= false // Par défaut à false car il n'y a pas de chargement tant qu'on ne lance pas de recherche 
+         }
+       
+         _displayDetailForFilm = (idFilm) => {
  
-        _searchFilms() {
+          console.log("Display film with id **" + idFilm)
+          this.props.navigation.navigate("FilmDetail",{idFilm: idFilm})
+          this.setState({ idFilm: idFilm }) 
+          console.log("state state : ",this.state )
+ 
+        }
+
+   _searchFilms() {
           this.page = 0
           this.totalPages = 0
           this.setState({
             films: []
           })
-          // J'utilise la paramètre length sur mon tableau de films pour vérifier qu'il y a bien 0 film
-          console.log("Page : " + this.page + " / TotalPages : " + this.totalPages + " / Nombre de films : " + this.state.films.length)
-        
+          // J'utilise la paramètre length sur mon tableau de films pour vérifier qu'il y a bien 0 film   
           this._loadFilms()
         }
-       _loadFilms() {
+
+     _loadFilms() {
           console.log(this.searchedText)                      // Un log pour vérifier qu'on a bien le texte du TextInput
           if (this.searchedText.length > 0) {                 // Seulement si le texte recherché n'est pas vide
              this.setState({ isLoading: true })               // Lancement du chargement 
@@ -34,12 +41,13 @@ class Search extends React.Component {
                  this.page = data.page
                  this.totalPages = data.total_pages
                  this.setState({  films: [ ...this.state.films, ...data.results ],isLoading: false /* Arrêt du chargement */})
-      })
-    }
-  }
+          }) }
+          }
+
     _searchTextInputChanged(text) {
           this.searchedText= text  
     }
+
     _displayLoading() {
       if (this.state.isLoading) {
         return (
@@ -47,14 +55,13 @@ class Search extends React.Component {
             <ActivityIndicator size='large' />
             {/* Le component ActivityIndicator possède une propriété size pour définir la taille du visuel de chargement : small ou large. Par défaut size vaut small, on met donc large pour que le chargement soit bien visible */}
           </View>
-        )
-      }
-    }
+        )}
+       }
 
  
       render() {
-        console.log("RENDER:")
-        console.log(this.state.isLoading)
+        console.log("RENDER: props props")
+        console.log( "Searsh-screen-props:",this.props)
        // Components/Search.js  
        return (
         <View style={styles.main_container}>
@@ -68,7 +75,9 @@ class Search extends React.Component {
         <FlatList
           data={this.state.films}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({item}) => <FilmItem film={item}/>}
+
+          renderItem={({item}) => <FilmItem film={item}  displayDetailForFilm={this._displayDetailForFilm}/>}
+
           onEndReachedThreshold={0.5}
           onEndReached={() => {
             if (this.page < this.totalPages) { // On vérifie qu'on n'a pas atteint la fin de la pagination (totalPages) avant de charger plus d'éléments
@@ -85,8 +94,8 @@ class Search extends React.Component {
       const styles = StyleSheet.create({
         main_container: {
           flex: 1,
-          marginTop: 20
-        },
+          marginTop: 10
+         },
         textinput: {
           marginLeft: 5,
           marginRight: 5,
