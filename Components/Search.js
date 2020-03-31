@@ -2,6 +2,8 @@ import React from 'react'
 import { StyleSheet, View, TextInput, Button, ActivityIndicator,FlatList } from 'react-native'
 import films from '../Helpers/filmsData'
 import FilmItem from './FilmItem'
+import FilmList from './FilmList'
+
 import { getFilmsFromApiWithSearchedText } from '../API/TMDBApi';
 import { connect } from 'react-redux'
 
@@ -14,7 +16,10 @@ class Search extends React.Component {
           this.totalPages = 0 // Nombre de pages totales pour savoir si on a atteint la fin des retours de l'API TMDB
           this.state = { films: [],idFilm:"" }  ,
           this.isLoading= false // Par défaut à false car il n'y a pas de chargement tant qu'on ne lance pas de recherche 
-         }
+        
+          this._loadFilms = this._loadFilms.bind(this)
+
+        }
        
     _displayDetailForFilm = (idFilm) => {
  
@@ -68,34 +73,52 @@ class Search extends React.Component {
 
        // Components/Search.js  
        return (
-        <View style={styles.main_container}>
-          <TextInput
-           style={styles.textinput}
-            placeholder='Titre du film'
-            onChangeText={(text) => this._searchTextInputChanged(text)}
-            onSubmitEditing={() => this. _searchFilms()}
-        />
-        <Button title='Rechercher' onPress={() => this. _searchFilms()}/>
+      //   <View style={styles.main_container}>
+      //     <TextInput
+      //      style={styles.textinput}
+      //       placeholder='Titre du film'
+      //       onChangeText={(text) => this._searchTextInputChanged(text)}
+      //       onSubmitEditing={() => this. _searchFilms()}
+      //   />
+      //   <Button title='Rechercher' onPress={() => this. _searchFilms()}/>
 
-        <FlatList
-          data={this.state.films}
-          extraData={this.props.favoritesFilm}
-          // On utilise la prop extraData pour indiquer à notre FlatList que d’autres données doivent être prises en compte si on lui demande de se re-rendre
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({item}) =>
-            <FilmItem
-              film={item}
-              // Ajout d'une props isFilmFavorite pour indiquer à l'item d'afficher un 🖤 ou non
-              isFilmFavorite={(this.props.favoritesFilm.findIndex(film => film.id === item.id) !== -1) ? true : false}
-              displayDetailForFilm={this._displayDetailForFilm}
-            />
-          }
-          onEndReachedThreshold={0.5}
-          onEndReached={() => {
-              if (this.page < this.totalPages) { // On vérifie également qu'on n'a pas atteint la fin de la pagination (totalPages) avant de charger plus d'éléments
-                 this._loadFilms()
-              }
-          }}
+      //   <FlatList
+      //     data={this.state.films}
+      //     extraData={this.props.favoritesFilm}
+      //     // On utilise la prop extraData pour indiquer à notre FlatList que d’autres données doivent être prises en compte si on lui demande de se re-rendre
+      //     keyExtractor={(item) => item.id.toString()}
+      //     renderItem={({item}) =>
+      //       <FilmItem
+      //         film={item}
+      //         // Ajout d'une props isFilmFavorite pour indiquer à l'item d'afficher un 🖤 ou non
+      //         isFilmFavorite={(this.props.favoritesFilm.findIndex(film => film.id === item.id) !== -1) ? true : false}
+      //         displayDetailForFilm={this._displayDetailForFilm}
+      //       />
+      //     }
+      //     onEndReachedThreshold={0.5}
+      //     onEndReached={() => {
+      //         if (this.page < this.totalPages) { // On vérifie également qu'on n'a pas atteint la fin de la pagination (totalPages) avant de charger plus d'éléments
+      //            this._loadFilms()
+      //         }
+      //     }}
+      //   />
+      //   {this._displayLoading()}
+      // </View>
+      <View style={styles.main_container}>
+        <TextInput
+          style={styles.textinput}
+          placeholder='Titre du film'
+          onChangeText={(text) => this._searchTextInputChanged(text)}
+          onSubmitEditing={() => this._searchFilms()}
+        />
+        <Button title='Rechercher' onPress={() => this._searchFilms()}/>
+        <FilmList
+          films={this.state.films}
+          navigation={this.props.navigation}
+          loadFilms={this._loadFilms}
+          page={this.page}
+          totalPages={this.totalPages}
+          favoriteList={false} // Ici j'ai simplement ajouté un booléen à false pour indiquer qu'on n'est pas dans le cas de l'affichage de la liste des films favoris. Et ainsi pouvoir déclencher le chargement de plus de films lorsque l'utilisateur scrolle.
         />
         {this._displayLoading()}
       </View>

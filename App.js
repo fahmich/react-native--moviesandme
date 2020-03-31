@@ -9,8 +9,8 @@ import FilmDetail from './Components/FilmDetail ';
 import { Provider } from 'react-redux'
 import Store from './Store/configureStore'
 
-import Navigation from './Navigation';
-import Favorites from './Components/favorites';
+import Navigation_Search from './Navigation_Search';
+import Navigation_Favorite from './Navigation_Favorite';
 import { Ionicons } from '@expo/vector-icons';
 
 //const Stack = createStackNavigator();
@@ -40,8 +40,8 @@ export default class App extends React.Component   {
             inactiveTintColor: 'gray', 
           }}
           >
-            <Tab.Screen name="Home" component={Navigation} />
-            <Tab.Screen name="Favorite" component={Favorites} />
+            <Tab.Screen name="Home" component={Navigation_Search} />
+            <Tab.Screen name="Favorite" component={Navigation_Favorite} />
 
           </Tab.Navigator> 
       </NavigationContainer>  

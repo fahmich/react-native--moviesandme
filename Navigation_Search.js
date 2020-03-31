@@ -9,7 +9,7 @@ import { Provider } from 'react-redux'
 import Store from './Store/configureStore'
 
 const Stack = createStackNavigator();
- export default class Navigation extends React.Component   {
+ export default class Navigation_Search extends React.Component   {
   render() {
     return (
       <Provider store={Store}>
