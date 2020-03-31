@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { View, Text } from 'react-native';
+import {StyleSheet,Image, View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import Search from './Components/Search';
 import FilmDetail from './Components/FilmDetail ';
@@ -8,22 +9,51 @@ import FilmDetail from './Components/FilmDetail ';
 import { Provider } from 'react-redux'
 import Store from './Store/configureStore'
 
-const Stack = createStackNavigator();
+import Navigation from './Navigation';
+import Favorites from './Components/favorites';
+import { Ionicons } from '@expo/vector-icons';
+
+//const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 export default class App extends React.Component   {
   render() {
     return (
-      <Provider store={Store}>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Rechercher+">
-          <Stack.Screen name="Rechercher+" component={Search}/>  
-          <Stack.Screen name="FilmDetail" component={FilmDetail}/> 
 
-          </Stack.Navigator>
-      </NavigationContainer>
-      </Provider>
+      <NavigationContainer>         
+          <Tab.Navigator
+          screenOptions={({ route }) => ({tabBarIcon: ({ focused, color, size }) => {
+               let  sourceImage  
+               if (route.name === 'Home') {
+                sourceImage  = require('./Images/ic_search.png')
+              } else if (route.name === 'Favorite') {
+                sourceImage  = require('./Images/ic_favorite.png')
+              } 
+              // You can return any component that you like here!
+              return ( <Image
+                          style={styles.icon}
+                          source={sourceImage}
+                   />);
+            },
+          })}
+          tabBarOptions={{
+            activeTintColor: 'tomato',activeBackgroundColor:'gray',
+            inactiveTintColor: 'gray', 
+          }}
+          >
+            <Tab.Screen name="Home" component={Navigation} />
+            <Tab.Screen name="Favorite" component={Favorites} />
 
-    );
-  }
-  }
+          </Tab.Navigator> 
+      </NavigationContainer>  
+   
  
+    );   
+  }
+  }
+  const styles = StyleSheet.create({
+    icon: {
+      width: 30,
+      height: 30
+    }
+  })
 
