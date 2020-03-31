@@ -9,8 +9,8 @@ import FilmDetail from './Components/FilmDetail ';
 import { Provider } from 'react-redux'
 import Store from './Store/configureStore'
 
-import Navigation_Search from './Navigation_Search';
-import Navigation_Favorite from './Navigation_Favorite';
+import Navigation_Search from './Navigation/Navigation_Search';
+import Navigation_Favorite from './Navigation/Navigation_Favorite';
 import { Ionicons } from '@expo/vector-icons';
 
 //const Stack = createStackNavigator();
