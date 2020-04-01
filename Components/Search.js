@@ -151,10 +151,11 @@ class Search extends React.Component {
       })
 
 // On connecte le store Redux, ainsi que les films favoris du state de notre application, à notre component Search
-const mapStateToProps = state => {
-  return {
-    favoritesFilm: state.favoritesFilm
-  }
-}
+// const mapStateToProps = state => {
+//   return {
+//     favoritesFilm: state.favoritesFilm
+//   }
+// }
 
-export default connect(mapStateToProps)(Search)
+// export default connect(mapStateToProps)(Search)
+ export default  Search 

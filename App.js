@@ -5,13 +5,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import Search from './Components/Search';
 import FilmDetail from './Components/FilmDetail ';
-
-import { Provider } from 'react-redux'
-import Store from './Store/configureStore'
-
+ 
 import Navigation_Search from './Navigation/Navigation_Search';
 import Navigation_Favorite from './Navigation/Navigation_Favorite';
 import { Ionicons } from '@expo/vector-icons';
+import Navigation_Test from './Navigation/Navigation_Test';
 
 //const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -27,7 +25,9 @@ export default class App extends React.Component   {
                 sourceImage  = require('./Images/ic_search.png')
               } else if (route.name === 'Favorite') {
                 sourceImage  = require('./Images/ic_favorite.png')
-              } 
+              }  else if (route.name === 'Test') {
+                sourceImage  = require('./Images/test.png')
+            }
               // You can return any component that you like here!
               return ( <Image
                           style={styles.icon}
@@ -42,6 +42,8 @@ export default class App extends React.Component   {
           >
             <Tab.Screen name="Home" component={Navigation_Search} />
             <Tab.Screen name="Favorite" component={Navigation_Favorite} />
+            <Tab.Screen name="Test" component={Navigation_Test} />
+
 
           </Tab.Navigator> 
       </NavigationContainer>  
