@@ -25,7 +25,7 @@ class FilmDetail extends React.Component {
       })
     }
     componentDidMount(){
-      const favoriteFilmIndex = this.props.favoritesFilm.findIndex(item => item.id === this.props.navigation.state.params.idFilm)
+      const favoriteFilmIndex = this.props.favoritesFilm.findIndex(item => item.id === this.props.route.params.idFilm)
       if (favoriteFilmIndex !== -1) {
         this.setState({
           film: this.props.favoritesFilm[favoriteFilmIndex]

@@ -7,9 +7,9 @@ import Search from './Components/Search';
 import FilmDetail from './Components/FilmDetail ';
  
 import Navigation_Search from './Navigation/Navigation_Search';
-import Navigation_Favorite from './Navigation/Navigation_Favorite';
-import { Ionicons } from '@expo/vector-icons';
+ import { Ionicons } from '@expo/vector-icons';
 import Navigation_Test from './Navigation/Navigation_Test';
+import Navigation_Favorite from './Navigation/Navigation_Favorite';
 
 //const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -41,10 +41,8 @@ export default class App extends React.Component   {
           }}
           >
             <Tab.Screen name="Home" component={Navigation_Search} />
-            <Tab.Screen name="Favorite" component={Navigation_Favorite} />
+            <Tab.Screen name="Favorites" component={Navigation_Favorite } />
             <Tab.Screen name="Test" component={Navigation_Test} />
-
-
           </Tab.Navigator> 
       </NavigationContainer>  
    
